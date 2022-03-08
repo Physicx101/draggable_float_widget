@@ -85,6 +85,9 @@ class DraggableFloatWidget extends StatefulWidget {
   /// See [GestureDetector.onTap] for details.
   final GestureTapCallback? onTap;
 
+  /// Expose [onDragEnd].
+  final DragEndCallback? onDragEnd;
+
   const DraggableFloatWidget({
     Key? key,
     this.width = defaultWidgetWidth,
@@ -93,6 +96,7 @@ class DraggableFloatWidget extends StatefulWidget {
     this.config = const DraggableFloatWidgetBaseConfig(),
     required this.child,
     this.onTap,
+    this.onDragEnd,
   }) : super(key: key);
 
   @override
@@ -316,6 +320,7 @@ class _CustomDraggableFloatState extends State<DraggableFloatWidget>
                 _refreshDragState(DraggableFloatWidgetState.DRAG_IN_PROGRESS);
               },
               onDragEnd: (details) {
+                widget.onDragEnd?.call(details);
                 _print(
                     "drag End! DraggableDetails(wasAccepted: ${details.wasAccepted}, velocity: ${details.velocity.toString()}, offset: ${details.offset.toString()})");
                 _handleDragEnd(details.offset);
